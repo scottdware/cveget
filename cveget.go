@@ -64,18 +64,14 @@ func main() {
 		fmt.Println(err)
 	}
 
-	matches := len(vulns.CVEs)
-
-	fmt.Printf("%d total CVE's\n\n", matches)
-
-	for n, c := range vulns.CVEs {
+	for _, c := range vulns.CVEs {
 		if list {
 			fmt.Println(c.Title)
 		}
 
 		if !list {
 			if strings.Contains(c.Title, cve) {
-				fmt.Printf("%d) %s\n\n", n, c.Title)
+				fmt.Printf("%s\n\n", c.Title)
 				fmt.Printf("Published: %s\n", c.Date)
 				fmt.Printf("%s\n\n", c.Link)
 				fmt.Printf("%s\n\n", c.Description)
