@@ -4,7 +4,7 @@ import (
 	"encoding/xml"
 	"flag"
 	"fmt"
-	"github.com/scottdware/go-requestor"
+	"github.com/scottdware/go-rested"
 	"os"
 	"strings"
 )
@@ -48,13 +48,13 @@ func init() {
 }
 
 func main() {
-	feedData := requestor.Send(rssNormal, nil)
+	feedData := rested.Send(rssNormal, nil)
 	if feedData.Error != nil {
 		fmt.Println(feedData.Error)
 	}
 
 	if analyzed {
-		feedData = requestor.Send(rssAnalyzed, nil)
+		feedData = rested.Send(rssAnalyzed, nil)
 		if feedData.Error != nil {
 			fmt.Println(feedData.Error)
 		}
