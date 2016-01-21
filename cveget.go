@@ -25,9 +25,9 @@ var (
 	rssNormal   = "https://nvd.nist.gov/download/nvd-rss.xml"
 	rssAnalyzed = "https://nvd.nist.gov/download/nvd-rss-analyzed.xml"
 	vulns       Vulnerabilities
-	list        bool
+	l           bool
 	cve         string
-	analyzed    bool
+	a           bool
 )
 
 func init() {
@@ -37,12 +37,12 @@ func init() {
 		flag.PrintDefaults()
 		os.Exit(0)
 	}
-	flag.BoolVar(&list, "list", false, "List all CVE's within the previous eight days.")
-	flag.BoolVar(&analyzed, "analyzed", false, "Provides only vulnerabilities which have been analyzed within the previous eight days.")
+	flag.BoolVar(&l, "l", false, "List all CVE's within the previous eight days.")
+	flag.BoolVar(&a, "a", false, "Provides only vulnerabilities which have been analyzed within the previous eight days.")
 	flag.StringVar(&cve, "cve", "", "Specify a CVE to view information on.")
 	flag.Parse()
 
-	if !list && cve == "" {
+	if !l && cve == "" {
 		flag.Usage()
 	}
 }
@@ -53,7 +53,7 @@ func main() {
 		fmt.Println(feedData.Error)
 	}
 
-	if analyzed {
+	if a {
 		feedData = rested.Send(rssAnalyzed, nil)
 		if feedData.Error != nil {
 			fmt.Println(feedData.Error)
@@ -65,11 +65,11 @@ func main() {
 	}
 
 	for _, c := range vulns.CVEs {
-		if list {
+		if l {
 			fmt.Println(c.Title)
 		}
 
-		if !list {
+		if !l {
 			if strings.Contains(c.Title, cve) {
 				fmt.Printf("%s\n\n", c.Title)
 				fmt.Printf("Published: %s\n", c.Date)
