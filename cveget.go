@@ -4,9 +4,10 @@ import (
 	"encoding/xml"
 	"flag"
 	"fmt"
-	"github.com/scottdware/go-rested"
 	"os"
 	"strings"
+
+	"github.com/scottdware/go-rested"
 )
 
 type CVE struct {
@@ -48,13 +49,14 @@ func init() {
 }
 
 func main() {
-	feedData := rested.Send(rssNormal, nil)
+	req := rested.NewRequest()
+	feedData := req.Send("get", rssNormal, nil, nil, nil)
 	if feedData.Error != nil {
 		fmt.Println(feedData.Error)
 	}
 
 	if a {
-		feedData = rested.Send(rssAnalyzed, nil)
+		feedData = req.Send("get", rssAnalyzed, nil, nil, nil)
 		if feedData.Error != nil {
 			fmt.Println(feedData.Error)
 		}
